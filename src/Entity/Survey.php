@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\SurveyTemplateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SurveyTemplateRepository::class)]
-class SurveyTemplate
+#[ORM\Entity(repositoryClass: SurveyRepository::class)]
+class Survey
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'survey', targetEntity: QuestionTemplate::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'survey', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $questions;
 
     public function __construct()
@@ -31,14 +30,14 @@ class SurveyTemplate
     }
 
     /**
-     * @return Collection<int, QuestionTemplate>
+     * @return Collection<int, Question>
      */
     public function getQuestions(): Collection
     {
         return $this->questions;
     }
 
-    public function addQuestion(QuestionTemplate $question): void
+    public function addQuestion(Question $question): void
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
@@ -46,7 +45,7 @@ class SurveyTemplate
         }
     }
 
-    public function removeQuestion(QuestionTemplate $question): void
+    public function removeQuestion(Question $question): void
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)

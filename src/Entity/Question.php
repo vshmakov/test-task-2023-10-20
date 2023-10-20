@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\QuestionTemplateRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: QuestionTemplateRepository::class)]
-class QuestionTemplate
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+class Question
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,12 +20,15 @@ class QuestionTemplate
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOptionTemplate::class, orphanRemoval: true)]
+    #[ORM\Column]
+    private bool $isAnswered = false;
+
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOption::class, orphanRemoval: true)]
     private Collection $options;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?SurveyTemplate $survey = null;
+    private ?Survey $survey = null;
 
     public function __construct()
     {
@@ -47,15 +50,25 @@ class QuestionTemplate
         $this->title = $title;
     }
 
+    public function isAnswered(): bool
+    {
+        return $this->isAnswered;
+    }
+
+    public function setAnswered(bool $isAnswered): void
+    {
+        $this->isAnswered = $isAnswered;
+    }
+
     /**
-     * @return Collection<int, QuestionOptionTemplate>
+     * @return Collection<int, QuestionOption>
      */
     public function getOptions(): Collection
     {
         return $this->options;
     }
 
-    public function addOption(QuestionOptionTemplate $option): void
+    public function addOption(QuestionOption $option): void
     {
         if (!$this->options->contains($option)) {
             $this->options->add($option);
@@ -63,7 +76,7 @@ class QuestionTemplate
         }
     }
 
-    public function removeOption(QuestionOptionTemplate $option): void
+    public function removeOption(QuestionOption $option): void
     {
         if ($this->options->removeElement($option)) {
             // set the owning side to null (unless already changed)
@@ -73,12 +86,12 @@ class QuestionTemplate
         }
     }
 
-    public function getSurvey(): ?SurveyTemplate
+    public function getSurvey(): ?Survey
     {
         return $this->survey;
     }
 
-    public function setSurvey(?SurveyTemplate $survey): void
+    public function setSurvey(?Survey $survey): void
     {
         $this->survey = $survey;
     }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\QuestionOptionTemplateRepository;
+use App\Repository\QuestionOptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: QuestionOptionTemplateRepository::class)]
-class QuestionOptionTemplate
+#[ORM\Entity(repositoryClass: QuestionOptionRepository::class)]
+class QuestionOption
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,9 +21,12 @@ class QuestionOptionTemplate
     #[ORM\Column]
     private bool $isRight = false;
 
+    #[ORM\Column]
+    private bool $isChosen = false;
+
     #[ORM\ManyToOne(inversedBy: 'options')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?QuestionTemplate $question = null;
+    private ?Question $question = null;
 
     public function getId(): ?int
     {
@@ -50,12 +53,22 @@ class QuestionOptionTemplate
         $this->isRight = $isRight;
     }
 
-    public function getQuestion(): ?QuestionTemplate
+    public function isChosen(): bool
+    {
+        return $this->isChosen;
+    }
+
+    public function setChosen(bool $isChosen): void
+    {
+        $this->isChosen = $isChosen;
+    }
+
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }
 
-    public function setQuestion(?QuestionTemplate $question): void
+    public function setQuestion(?Question $question): void
     {
         $this->question = $question;
     }
