@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\SurveyTemplate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Webmozart\Assert\Assert;
 
 /**
  * @extends ServiceEntityRepository<SurveyTemplate>
@@ -21,5 +22,14 @@ final class SurveyTemplateRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SurveyTemplate::class);
+    }
+
+    public function requireTemplate(): SurveyTemplate
+    {
+        $templates = $this->findBy([], ['id' => 'asc'], 1);
+        $template = array_shift($templates);
+        Assert::notNull($template, 'Survey template does not exist');
+
+        return $template;
     }
 }
