@@ -64,7 +64,7 @@ final class SurveyTemplateFixtures extends Fixture
                         'title' => '2 + 4',
                         'isRight' => true,
                     ],
-                    ],
+                ],
             ],
             [
                 'title' => '4 + 4 =',
@@ -85,7 +85,7 @@ final class SurveyTemplateFixtures extends Fixture
                         'title' => '0 + 8',
                         'isRight' => true,
                     ],
-                    ],
+                ],
             ],
             [
                 'title' => '5 + 5 =',
@@ -102,7 +102,6 @@ final class SurveyTemplateFixtures extends Fixture
                         'title' => '10',
                         'isRight' => true,
                     ],
-
                     [
                         'title' => '9',
                         'isRight' => false,
@@ -111,11 +110,110 @@ final class SurveyTemplateFixtures extends Fixture
                         'title' => '0',
                         'isRight' => false,
                     ],
+                ],
+            ],
+            [
+                'title' => '6 + 6 =',
+                'options' => [
+                    [
+                        'title' => '3',
+                        'isRight' => false,
                     ],
+                    [
+                        'title' => '9',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '0',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '12',
+                        'isRight' => true,
+                    ],
+                    [
+                        'title' => '5 + 7',
+                        'isRight' => true,
+                    ],
+                ],
             ],
-
-
+            [
+                'title' => '7 + 7 =',
+                'options' => [
+                    [
+                        'title' => '5',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '14',
+                        'isRight' => true,
+                    ],
+                ],
             ],
+            [
+                'title' => '8 + 8 =',
+                'options' => [
+                    [
+                        'title' => '16',
+                        'isRight' => true,
+                    ],
+                    [
+                        'title' => '12',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '9',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '5',
+                        'isRight' => false,
+                    ],
+                ],
+            ],
+            [
+                'title' => '9 + 9 =',
+                'options' => [
+                    [
+                        'title' => '18',
+                        'isRight' => true,
+                    ],
+                    [
+                        'title' => '9',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '17 + 1',
+                        'isRight' => true,
+                    ],
+                    [
+                        'title' => '2 + 16',
+                        'isRight' => true,
+                    ],
+                ],
+            ],
+            [
+                'title' => '10 + 10 =',
+                'options' => [
+                    [
+                        'title' => '0',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '2',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '8',
+                        'isRight' => false,
+                    ],
+                    [
+                        'title' => '20',
+                        'isRight' => true,
+                    ],
+                ],
+            ],
+        ],
     ];
 
     public function load(ObjectManager $manager): void
