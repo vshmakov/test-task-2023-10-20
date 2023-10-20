@@ -19,6 +19,10 @@ class Survey
     #[ORM\OneToMany(mappedBy: 'survey', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\ManyToOne(inversedBy: 'surveys')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SurveyTemplate $template = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -53,5 +57,15 @@ class Survey
                 $question->setSurvey(null);
             }
         }
+    }
+
+    public function getTemplate(): ?SurveyTemplate
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?SurveyTemplate $template): void
+    {
+        $this->template = $template;
     }
 }

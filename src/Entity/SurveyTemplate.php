@@ -20,9 +20,13 @@ class SurveyTemplate
     #[ORM\OneToMany(mappedBy: 'survey', targetEntity: QuestionTemplate::class, orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\OneToMany(mappedBy: 'template', targetEntity: Survey::class, orphanRemoval: true)]
+    private Collection $surveys;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->surveys = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,6 +56,32 @@ class SurveyTemplate
             // set the owning side to null (unless already changed)
             if ($question->getSurvey() === $this) {
                 $question->setSurvey(null);
+            }
+        }
+    }
+
+    /**
+     * @return Collection<int, Survey>
+     */
+    public function getSurveys(): Collection
+    {
+        return $this->surveys;
+    }
+
+    public function addSurvey(Survey $survey): void
+    {
+        if (!$this->surveys->contains($survey)) {
+            $this->surveys->add($survey);
+            $survey->setTemplate($this);
+        }
+    }
+
+    public function removeSurvey(Survey $survey): void
+    {
+        if ($this->surveys->removeElement($survey)) {
+            // set the owning side to null (unless already changed)
+            if ($survey->getTemplate() === $this) {
+                $survey->setTemplate(null);
             }
         }
     }
