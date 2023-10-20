@@ -23,6 +23,7 @@ class Question
     #[ORM\Column]
     private bool $isAnswered = false;
 
+    /** @var Collection<int, QuestionOption> */
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOption::class, orphanRemoval: true)]
     private Collection $options;
 

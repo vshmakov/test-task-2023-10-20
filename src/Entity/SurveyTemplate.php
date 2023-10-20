@@ -17,9 +17,11 @@ class SurveyTemplate
     #[ORM\Column]
     private ?int $id = null;
 
+    /** @var Collection<int, QuestionTemplate> */
     #[ORM\OneToMany(mappedBy: 'survey', targetEntity: QuestionTemplate::class, orphanRemoval: true)]
     private Collection $questions;
 
+    /** @var Collection<int, Survey> */
     #[ORM\OneToMany(mappedBy: 'template', targetEntity: Survey::class, orphanRemoval: true)]
     private Collection $surveys;
 

@@ -20,6 +20,7 @@ class QuestionTemplate
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    /** @var Collection<int, QuestionOptionTemplate> */
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOptionTemplate::class, orphanRemoval: true)]
     private Collection $options;
 
