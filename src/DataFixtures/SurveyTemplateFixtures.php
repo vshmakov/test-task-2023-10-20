@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\QuestionOptionTemplate;
+use App\Entity\QuestionTemplate;
+use App\Entity\SurveyTemplate;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -218,8 +221,23 @@ final class SurveyTemplateFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $surveyTemplate = new SurveyTemplate();
+        $manager->persist($surveyTemplate);
+
+        foreach (self::SURVEY['questions'] as $question) {
+            $questionTemplate = new QuestionTemplate();
+            $manager->persist($questionTemplate);
+            $questionTemplate->setSurvey($surveyTemplate);
+            $questionTemplate->setTitle($question['title']);
+
+            foreach ($question['options'] as $option) {
+                $questionOptionTemplate = new QuestionOptionTemplate();
+                $manager->persist($questionOptionTemplate);
+                $questionOptionTemplate->setQuestion($questionTemplate);
+                $questionOptionTemplate->setTitle($option['title']);
+                $questionOptionTemplate->setRight($option['isRight']);
+            }
+        }
 
         $manager->flush();
     }
