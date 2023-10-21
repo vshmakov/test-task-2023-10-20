@@ -10,6 +10,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -77,5 +78,17 @@ class Question
     public function setSurvey(?Survey $survey): void
     {
         $this->survey = $survey;
+    }
+
+    #[IsTrue(message: 'Choose at least one option')]
+    public function hasChosenOption(): bool
+    {
+        foreach ($this->options as $option) {
+            if ($option->isChosen()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

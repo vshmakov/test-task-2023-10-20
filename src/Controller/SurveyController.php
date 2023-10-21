@@ -33,7 +33,11 @@ final class SurveyController extends AbstractController
             ->getFirstUnansweredQuestion()
         ;
         $form = $this->createForm(QuestionType::class, $question);
-        $form->submit($request);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd(123);
+        }
 
         return $this->render('survey/index.html.twig', [
             'form' => $form,
