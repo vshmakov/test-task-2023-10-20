@@ -18,7 +18,6 @@ final class QuestionType extends AbstractType
         $builder
             ->add('options', CollectionType::class, [
                 'label' => false,
-
                 'entry_type' => QuestionOptionType::class,
             ])
             ->add('submit', SubmitType::class)

@@ -1,0 +1,12 @@
+{% if not questions is empty %}
+    <div>
+        <h2>{{ title }}</h2>
+
+        <ol>
+            {% for question in questions %}
+                {% set answers = question.options|filter(x => x.isChosen)|map(x => x.title) %}
+                <li>{{ question.title }} ({{ answers|join(', ') }})</li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endif %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Survey result
+{% endblock %}
+
+{% block body %}
+    <ul>
+        <li>
+            <a href="{{ path('homepage') }}">
+                Back to homepage
+            </a>
+        </li>
+    </ul>
+
+    {% include 'survey/questions.html.twig' with {
+        title: 'Right answered questions',
+        questions: survey.questions|filter(x => x.isRight),
+    } only %}
+
+    {% include 'survey/questions.html.twig' with {
+        title: 'Wrong answered questions',
+        questions: survey.questions|filter(x => not x.isRight),
+    } only %}
+{% endblock %}

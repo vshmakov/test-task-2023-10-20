@@ -91,4 +91,15 @@ class Question
 
         return false;
     }
+
+    public function isRight(): bool
+    {
+        foreach ($this->options as $option) {
+            if ($option->isChosen() && !$option->isRight()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

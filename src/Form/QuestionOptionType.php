@@ -22,6 +22,7 @@ final class QuestionOptionType extends AbstractType
             $event->getForm()
                 ->add('isChosen', null, [
                     'label' => $option->requireTitle(),
+                    'setter' => static fn (QuestionOption $option, bool $isChosen) => $option->setChosen($isChosen),
                 ])
             ;
         });

@@ -16,7 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Webmozart\Assert\Assert;
 
+#[Route('/survey', name: 'survey_')]
 final class SurveyController extends AbstractController
 {
     public function __construct(
@@ -26,21 +28,38 @@ final class SurveyController extends AbstractController
     ) {
     }
 
-    #[Route('/survey', name: 'app_survey')]
-    public function index(Request $request): Response
+    #[Route('/answer', name: 'answer')]
+    public function answer(Request $request): Response
     {
-        $question = $this->getActualSurvey()
-            ->getFirstUnansweredQuestion()
-        ;
+        $survey = $this->getActualSurvey();
+        $question = $survey->getFirstUnansweredQuestion();
+        Assert::notNull($question);
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd(123);
+            $question->setAnswered(true);
+            $this->entityManager->flush();
+
+            if (null === $survey->getFirstUnansweredQuestion()) {
+                return $this->redirectToRoute('survey_result', [
+                    'id' => $survey->getId(),
+                ]);
+            }
+
+            return $this->redirectToRoute('survey_answer');
         }
 
-        return $this->render('survey/index.html.twig', [
+        return $this->render('survey/answer.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/result', name: 'result')]
+    public function result(Survey $survey): Response
+    {
+        return $this->render('survey/result.html.twig', [
+            'survey' => $survey,
         ]);
     }
 
