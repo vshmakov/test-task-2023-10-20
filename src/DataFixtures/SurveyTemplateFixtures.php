@@ -226,16 +226,14 @@ final class SurveyTemplateFixtures extends Fixture
 
         foreach (self::SURVEY['questions'] as $question) {
             $questionTemplate = new QuestionTemplate();
-            $manager->persist($questionTemplate);
-            $questionTemplate->setSurvey($surveyTemplate);
+            $surveyTemplate->addQuestion($questionTemplate);
             $questionTemplate->setTitle($question['title']);
 
             foreach ($question['options'] as $option) {
-                $questionOptionTemplate = new QuestionOptionTemplate();
-                $manager->persist($questionOptionTemplate);
-                $questionOptionTemplate->setQuestion($questionTemplate);
-                $questionOptionTemplate->setTitle($option['title']);
-                $questionOptionTemplate->setRight($option['isRight']);
+                $optionTemplate = new QuestionOptionTemplate();
+                $questionTemplate->addOption($optionTemplate);
+                $optionTemplate->setTitle($option['title']);
+                $optionTemplate->setRight($option['isRight']);
             }
         }
 

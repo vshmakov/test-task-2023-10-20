@@ -18,7 +18,7 @@ class QuestionTemplate
     use TitleNotNullableTrait;
 
     /** @var Collection<int, QuestionOptionTemplate> */
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOptionTemplate::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOptionTemplate::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $options;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]

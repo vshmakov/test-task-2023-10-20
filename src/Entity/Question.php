@@ -21,7 +21,7 @@ class Question
     private bool $isAnswered = false;
 
     /** @var Collection<int, QuestionOption> */
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOption::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: QuestionOption::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $options;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
