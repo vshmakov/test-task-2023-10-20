@@ -83,14 +83,20 @@ final class SurveyController extends AbstractController
     private function createSurveyByTemplate(SurveyTemplate $template): Survey
     {
         $survey = new Survey();
-        $survey->setTemplate($template);
+        $template->addSurvey($survey);
 
-        foreach ($template->getQuestions() as $questionTemplate) {
+        $questions = $template->getQuestions()->toArray();
+        Assert::true(shuffle($questions));
+
+        foreach ($questions as $questionTemplate) {
             $question = new Question();
             $survey->addQuestion($question);
             $question->setTitle($questionTemplate->requireTitle());
 
-            foreach ($questionTemplate->getOptions() as $optionTemplate) {
+            $options = $questionTemplate->getOptions()->toArray();
+            Assert::true(shuffle($options));
+
+            foreach ($options as $optionTemplate) {
                 $option = new QuestionOption();
                 $question->addOption($option);
                 $option->setTitle($optionTemplate->requireTitle());
